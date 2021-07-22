@@ -1,6 +1,6 @@
 import { caculate } from "entry";
 import React, { useEffect } from "react";
-import logo from "logo.svg";
+import logo from "src/logo.svg";
 
 export const Demo = () => {
   useEffect(() => {
