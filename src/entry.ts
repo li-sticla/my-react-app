@@ -1,1 +1,3 @@
-export function caculate() {}
+export function caculate() {
+  return 0;
+}
