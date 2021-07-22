@@ -7,7 +7,7 @@
  * style:仅样式改动
  * docs:仅文档新增/改动
  * chore:构建过程或辅助工具的变动
- * test:测试用例修改
+ * test:测试用例的修改
  */
 module.exports = {
   extends: ["@commitlint/config-conventional"],
