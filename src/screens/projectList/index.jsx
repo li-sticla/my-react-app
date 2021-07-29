@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import { cleanObject } from "utils/index.js";
 import { List } from "./list.jsx";
 import { SearchPanel } from "./search-panel";
-
+import * as qs from "qs";
 export const ProjectListScreen = () => {
   const [list, setList] = useState([]);
 
@@ -14,13 +15,13 @@ export const ProjectListScreen = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
-    fetch(
-      `${apiUrl}/projects?name=${param.name}&personId=${param.personId}`
-    ).then(async (response) => {
-      if (response.ok) {
-        setList(await response.json());
+    fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(param))}`).then(
+      async (response) => {
+        if (response.ok) {
+          setList(await response.json());
+        }
       }
-    });
+    );
   }, [param]);
 
   useEffect(() => {
