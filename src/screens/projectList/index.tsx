@@ -1,8 +1,17 @@
 import { useEffect, useState } from "react";
 import { cleanObject, useDebounce, useMount } from "utils/index.js";
-import { List } from "./list.jsx";
+import { List } from "./list";
 import { SearchPanel } from "./search-panel";
 import * as qs from "qs";
+export interface Project {
+  name: string;
+  id: string;
+  personId: string;
+}
+export interface User {
+  name: string;
+  id: string;
+}
 export const ProjectListScreen = () => {
   const [list, setList] = useState([]);
 
@@ -17,13 +26,13 @@ export const ProjectListScreen = () => {
   const debouncedParam = useDebounce(param, 2000);
 
   useEffect(() => {
-    fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(param))}`).then(
-      async (response) => {
-        if (response.ok) {
-          setList(await response.json());
-        }
+    fetch(
+      `${apiUrl}/projects?${qs.stringify(cleanObject(debouncedParam))}`
+    ).then(async (response) => {
+      if (response.ok) {
+        setList(await response.json());
       }
-    );
+    });
   }, [debouncedParam]);
 
   useMount(() => {

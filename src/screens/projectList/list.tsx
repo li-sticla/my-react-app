@@ -1,4 +1,9 @@
-export const List = ({ list, users }) => {
+import { Project, User } from "./index";
+interface ListProp {
+  list: Project[];
+  users: User[];
+}
+export const List = ({ list, users }: ListProp) => {
   return (
     <table>
       <thead>

@@ -5,16 +5,16 @@ import { useEffect, useState } from "react";
 /**
  * 布尔类型转换,且排除 value为 0 的特殊情况
  * @date 2021-08-01
- * @param {any} value
- * @returns {Boolean}
+ * @param {unknown} value
+ * @returns {boolean}
  */
 export const isFalsy = (value) => (value === 0 ? false : !value);
 
 /**
  * 清理对象空属性
  * @date 2021-08-01
- * @param {Object} object
- * @returns {Object}
+ * @param {object} object
+ * @returns {object}
  */
 export const cleanObject = (object) => {
   //在函数里改变传入的对象是不好的行为,Object.assign({},object)仍会发生浅拷贝，不推荐
@@ -31,7 +31,7 @@ export const cleanObject = (object) => {
 /**
  * 利用custom hook实现mount钩子
  * @date 2021-08-01
- * @param {Function} callback
+ * @param {function} callback
  */
 export const useMount = (callback) => {
   useEffect(() => {
@@ -42,9 +42,10 @@ export const useMount = (callback) => {
 /**
  * 利用custom hook 实现的 debounce
  * @date 2021-08-01
- * @param {any} value
- * @param {Number} delay
- * @returns {any}
+ * @template V
+ * @param {V} value
+ * @param {number} delay
+ * @returns {V}
  */
 export const useDebounce = (value, delay) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
