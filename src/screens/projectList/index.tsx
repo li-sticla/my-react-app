@@ -3,15 +3,23 @@ import { cleanObject, useDebounce, useMount } from "utils/index";
 import { List } from "./list";
 import { SearchPanel } from "./search-panel";
 import * as qs from "qs";
+
 export interface Project {
   name: string;
   id: string;
   personId: string;
+  organization: string;
 }
+
 export interface User {
-  name: string;
   id: string;
+  name: string;
+  email: string;
+  title: string;
+  organization: string;
+  token: string;
 }
+
 export const ProjectListScreen = () => {
   const [list, setList] = useState([]);
 
