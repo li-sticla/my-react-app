@@ -29,8 +29,6 @@ export const ProjectListScreen = () => {
   });
   const [users, setUsers] = useState([]);
 
-  const apiUrl = process.env.REACT_APP_API_URL;
-
   const debouncedParam = useDebounce(param, 2000);
 
   const client = useHttp();
