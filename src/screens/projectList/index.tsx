@@ -3,12 +3,14 @@ import { cleanObject, useDebounce, useMount } from "utils/index";
 import { List } from "./list";
 import { SearchPanel } from "./search-panel";
 import { useHttp } from "utils/http";
+import styled from "@emotion/styled";
 
 export interface Project {
   name: string;
   id: string;
   personId: string;
   organization: string;
+  created: number;
 }
 
 export interface User {
@@ -42,13 +44,18 @@ export const ProjectListScreen = () => {
   });
 
   return (
-    <div>
+    <Container>
+      <h1>项目列表</h1>
       <SearchPanel
         users={users}
         param={param}
         setParam={setParam}
       ></SearchPanel>
       <List list={list} users={users}></List>
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  padding: 3.2rem;
+`;
