@@ -4,9 +4,11 @@ import { useAuth } from "context/auth-context";
 import { ProjectListScreen } from "screens/projectList";
 import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
 import { Button, Dropdown, Menu } from "antd";
+import { useDocumentTitle } from "utils";
 
 export const AuthenticatedApp = () => {
   const { logout, user } = useAuth();
+  useDocumentTitle("项目列表", false);
   return (
     <Container>
       <Header between={true}>

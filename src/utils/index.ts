@@ -1,5 +1,5 @@
 // 自定义工具库
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * 布尔类型转换,且排除 value为 0 的特殊情况
@@ -50,7 +50,7 @@ export const useMount = (callback: () => void) => {
  * @template V
  * @param {V} value
  * @param {number} delay
- * @returns {V}
+ * @returns {V} debouncedValue
  */
 export const useDebounce = <V>(value: V, delay: number) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -64,4 +64,27 @@ export const useDebounce = <V>(value: V, delay: number) => {
   }, [value, delay]);
 
   return debouncedValue;
+};
+
+/**
+ * 设置页面标题
+ * @param {string} title
+ * @param {boolean} keepOnUnmount 卸载后保持标题不变
+ */
+export const useDocumentTitle = (
+  title: string,
+  keepOnUnmount: boolean = true
+) => {
+  const oldTitle = useRef(document.title).current;
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
+
+  useEffect(() => {
+    return () => {
+      if (!keepOnUnmount) {
+        document.title = oldTitle;
+      }
+    };
+  }, [keepOnUnmount, oldTitle]);
 };
