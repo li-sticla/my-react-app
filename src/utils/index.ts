@@ -88,3 +88,8 @@ export const useDocumentTitle = (
     };
   }, [keepOnUnmount, oldTitle]);
 };
+
+/**
+ * 重置为根路由
+ */
+export const resetRoute = () => (window.location.href = window.location.origin);
