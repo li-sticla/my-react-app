@@ -1,10 +1,10 @@
-import { useState } from "react";
 import { useDebounce } from "utils/index";
 import { List } from "./list";
 import { SearchPanel } from "./search-panel";
 import styled from "@emotion/styled";
 import { Typography } from "antd";
 import { useProjects, useUsers } from "utils/API";
+import { useUrlQueryParam } from "utils/url";
 
 export interface Project {
   name: string;
@@ -24,10 +24,11 @@ export interface User {
 }
 
 export const ProjectListScreen = () => {
-  const [param, setParam] = useState({
-    name: "",
-    personId: "",
-  });
+  // const [param, setParam] = useState({
+  //   name: "",
+  //   personId: "",
+  // });
+  const [param, setParam] = useUrlQueryParam(["name", "personId"]);
 
   const debouncedParam = useDebounce(param, 2000);
 
