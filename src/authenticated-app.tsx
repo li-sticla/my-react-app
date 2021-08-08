@@ -4,7 +4,7 @@ import { useAuth } from "context/auth-context";
 import { ProjectListScreen } from "screens/projectList";
 import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
 import { Button, Dropdown, Menu } from "antd";
-import { resetRoute, useDocumentTitle } from "utils";
+import { resetRoute } from "utils";
 import { Navigate, Route, Routes } from "react-router";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ProjectScreen } from "screens/project";

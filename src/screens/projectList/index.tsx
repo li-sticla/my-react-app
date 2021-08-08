@@ -6,23 +6,6 @@ import { Typography } from "antd";
 import { useProjects, useUsers } from "utils/API";
 import { useProjectsSearchParams } from "./util";
 
-export interface Project {
-  name: string;
-  id: number;
-  personId: number;
-  organization: string;
-  created: number;
-}
-
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-  title: string;
-  organization: string;
-  token: string;
-}
-
 export const ProjectListScreen = () => {
   useDocumentTitle("项目列表", false);
 
