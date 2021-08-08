@@ -7,6 +7,12 @@ interface Config extends RequestInit {
   token?: string;
   data?: object;
 }
+/**
+ * 自定义 fetch 请求封装
+ * @param endpoint 接口地址
+ * @param Config 自定义配置
+ * @returns Promise
+ */
 export const http = async (
   endpoint: string,
   { data, token, headers, ...customConfig }: Config = {}
@@ -42,7 +48,11 @@ export const http = async (
       }
     });
 };
-// 自动获取token加入headers
+
+/**
+ * 自动获取 user 的 token 加入 headers
+ * @returns Promise
+ */
 export const useHttp = () => {
   const { user } = useAuth();
   return (...[endpoint, config]: Parameters<typeof http>) =>

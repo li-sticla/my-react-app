@@ -27,7 +27,8 @@ export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
       </Form.Item>
       <Form.Item>
         <Select
-          value={param.personId}
+          defaultValue={""}
+          // value={param.personId} //指定当前选中的条目
           onChange={(value) => {
             setParam({
               ...param,

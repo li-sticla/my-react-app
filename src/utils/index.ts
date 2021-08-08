@@ -2,8 +2,17 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
+ * 数字类型转换，无法转换默认为 0
+ * @param {unknown} value
+ * @returns 0 | Number(value)
+ */
+export const toNumber = (value: unknown) =>
+  isNaN(Number(value)) ? 0 : Number(value);
+
+/**
  * 布尔类型转换,且排除 value为 0 的特殊情况
  * @param {unknown} value
+ * @returns  对 value 取反
  */
 export const isFalsy = (value: unknown) => (value === 0 ? false : !value);
 
@@ -13,6 +22,7 @@ export const isFalsy = (value: unknown) => (value === 0 ? false : !value);
  */
 export const isVoid = (value: unknown) =>
   value === undefined || value === null || value === "";
+
 /**
  * 清理对象空属性
  * @param {object} object
