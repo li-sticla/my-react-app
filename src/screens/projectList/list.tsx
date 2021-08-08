@@ -7,11 +7,13 @@ import { Pin } from "components/pin";
 import { useEditProject } from "utils/API";
 interface ListProp extends TableProps<Project> {
   users: User[];
+  refresh?: () => void;
 }
 export const List = ({ users, ...props }: ListProp) => {
   const { mutate } = useEditProject();
   //柯里化
-  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin });
+  const pinProject = (id: number) => (pin: boolean) =>
+    mutate({ id, pin }).then(props.refresh);
   return (
     <Table
       pagination={false}
