@@ -1,21 +1,21 @@
-import { useDebounce } from "utils/index";
+import { useDebounce, useDocumentTitle } from "utils/index";
 import { List } from "./list";
 import { SearchPanel } from "./search-panel";
 import styled from "@emotion/styled";
 import { Typography } from "antd";
 import { useProjects, useUsers } from "utils/API";
-import { useUrlQueryParam } from "utils/url";
+import { useProjectsSearchParams } from "./util";
 
 export interface Project {
   name: string;
-  id: string;
-  personId: string;
+  id: number;
+  personId: number;
   organization: string;
   created: number;
 }
 
 export interface User {
-  id: string;
+  id: number;
   name: string;
   email: string;
   title: string;
@@ -24,11 +24,9 @@ export interface User {
 }
 
 export const ProjectListScreen = () => {
-  // const [param, setParam] = useState({
-  //   name: "",
-  //   personId: "",
-  // });
-  const [param, setParam] = useUrlQueryParam(["name", "personId"]);
+  useDocumentTitle("项目列表", false);
+
+  const [param, setParam] = useProjectsSearchParams();
 
   const debouncedParam = useDebounce(param, 2000);
 

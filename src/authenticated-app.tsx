@@ -10,7 +10,6 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { ProjectScreen } from "screens/project";
 
 export const AuthenticatedApp = () => {
-  useDocumentTitle("项目列表", false);
   return (
     <Container>
       <PageHeader />
