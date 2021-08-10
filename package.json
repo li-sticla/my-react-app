@@ -33,6 +33,7 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
+    "deploy":"gh-pages -d build -r git@github.com:K1SuMi/K1SuMi.github.io.git -b main",
     "eject": "react-scripts eject",
     "prepare": "husky install",
     "commit": "git add -A && git-cz",
