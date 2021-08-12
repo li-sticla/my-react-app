@@ -1,12 +1,14 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useCallback } from "react";
 import * as auth from "auth-provider";
 import { User } from "types/user";
 import { http } from "utils/http";
 import { useMount } from "utils";
 import { useAsync } from "utils/use-async";
 import { FullPageErrorFallback, FullPageLoading } from "components/lib";
+import * as authStore from "store/auth.slice";
+import { useDispatch, useSelector } from "react-redux";
 
-interface AuthForm {
+export interface AuthForm {
   username: string;
   password: string;
 }
@@ -14,7 +16,7 @@ interface AuthForm {
  * 获取 user 信息
  * @returns user
  */
-const bootstrapUser = async () => {
+export const bootstrapUser = async () => {
   let user = null;
   const token = auth.getToken();
   if (token) {
@@ -23,45 +25,13 @@ const bootstrapUser = async () => {
   }
   return user;
 };
-/**
- * 一个上下文对象;
- * 对外暴露给提供者 Provider(通常在组件树中上层的位置)和消费者(上下文内任何获取数据的组件)；
- * 在上下文之内的所有子组件都可以访问这个上下文环境之内的数据，并且不用通过props；
- */
-const AuthContext = React.createContext<
-  | {
-      user: User | null;
-      register: (form: AuthForm) => Promise<void>;
-      login: (form: AuthForm) => Promise<void>;
-      logout: () => Promise<void>;
-    }
-  | undefined
->(undefined);
-AuthContext.displayName = "AuthContext";
 
-/**
- * 提供者，为消费者提供 context 之内的数据
- * @param 需要渲染的子组件
- * @returns 一个具有组件和数据的父容器
- */
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const {
-    data: user,
-    error,
-    isLoading,
-    isIdle,
-    isError,
-    run,
-    setData: setUser,
-  } = useAsync<User | null>();
-
-  //为方便使用，将register,login,logout方法封装并暴露出去
-  const register = (form: AuthForm) => auth.register(form).then(setUser);
-  const login = (form: AuthForm) => auth.login(form).then(setUser);
-  const logout = () => auth.logout().then(() => setUser(null));
+  const { error, isLoading, isIdle, isError, run } = useAsync<User | null>();
+  const dispatch: (...args: unknown[]) => Promise<User> = useDispatch();
 
   useMount(() => {
-    run(bootstrapUser());
+    run(dispatch(authStore.bootstrap()));
   });
   if (isIdle || isLoading) {
     return <FullPageLoading />;
@@ -69,21 +39,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   if (isError) {
     return <FullPageErrorFallback error={error} />;
   }
-  return (
-    <AuthContext.Provider
-      children={children}
-      value={{ user, login, register, logout }}
-    />
-  );
+  return <div>{children}</div>;
 };
 
-/**
- * 获取当前Context 中 Provider 提供的内容
- */
 export const useAuth = () => {
-  const context = React.useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth必须在AuthProvider中使用");
-  }
-  return context;
+  const dispatch: (...args: unknown[]) => Promise<User> = useDispatch();
+  const user = useSelector(authStore.selectUser);
+  const login = useCallback(
+    (form: AuthForm) => dispatch(authStore.login(form)),
+    [dispatch]
+  );
+  const register = useCallback(
+    (form: AuthForm) => dispatch(authStore.register(form)),
+    [dispatch]
+  );
+  const logout = useCallback(() => dispatch(authStore.logout()), [dispatch]);
+  return {
+    user,
+    login,
+    register,
+    logout,
+  };
 };
