@@ -24,6 +24,13 @@ export const isVoid = (value: unknown) =>
   value === undefined || value === null || value === "";
 
 /**
+ * 类型守卫
+ * 如果为 Error类型，应具有message属性
+ * @param value
+ */
+export const isError = (value: any): value is Error => value?.message;
+
+/**
  * 清理对象空属性
  * @param {object} object
  * @returns {object}
