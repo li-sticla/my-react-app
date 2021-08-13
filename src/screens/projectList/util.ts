@@ -18,7 +18,17 @@ export const useProjectsSearchParams = () => {
     setParam,
   ] as const;
 };
-
+/**
+ * 根据当前 url 获取 query 缓存键值
+ * @returns ["projects", params];
+ */
+export const useProjectsQueryKey = () => {
+  const [params] = useProjectsSearchParams();
+  return ["projects", params];
+};
+/**
+ * 获取项目模态框状态
+ */
 export const useProjectModal = () => {
   const [{ projectCreate }, setProjectCreate] = useUrlQueryParam([
     "projectCreate",

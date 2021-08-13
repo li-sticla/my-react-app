@@ -1,15 +1,21 @@
 import { useEffect } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { QueryKey, useMutation, useQuery } from "react-query";
 import { Project } from "types/project";
 import { User } from "types/user";
 import { cleanObject } from "utils";
 import { useHttp } from "./http";
 import { useAsync } from "./use-async";
+import {
+  useAddConfig,
+  useDeleteConfig,
+  useEditConfig,
+} from "./use-optimistic-options";
 
 export const useProjects = (param?: Partial<Project>) => {
   const client = useHttp();
-  return useQuery<Project[]>(["projects", param], () =>
-    client("projects", { data: cleanObject(param || {}) })
+
+  return useQuery<Project[]>(["projects", cleanObject(param)], () =>
+    client("projects", { data: param })
   );
 };
 
@@ -23,36 +29,49 @@ export const useUsers = (param?: Partial<User>) => {
 };
 /**
  * 编辑项目
- * @returns mutate--调用其处理请求，并刷新缓存数据
+ * @returns mutate--调用其处理请求，并乐观更新
  */
-export const useEditProject = () => {
+export const useEditProject = (queryKey: QueryKey) => {
   const client = useHttp();
-  const queryClient = useQueryClient();
   return useMutation(
     (params: Partial<Project>) =>
       client(`projects/${params.id}`, {
         data: params,
         method: "PATCH",
       }),
-    { onSuccess: () => queryClient.invalidateQueries("projects") }
+    useEditConfig(queryKey)
   );
 };
 /**
  * 添加项目
- * @returns mutate--调用其处理请求，useAsync各项数据
+ * @returns mutate--调用其处理请求，并乐观更新
  */
-export const useAddProject = () => {
+export const useAddProject = (queryKey: QueryKey) => {
   const client = useHttp();
-  const queryClient = useQueryClient();
   return useMutation(
     (params: Partial<Project>) =>
       client(`projects`, {
         data: params,
         method: "POST",
       }),
-    { onSuccess: () => queryClient.invalidateQueries("projects") }
+    useAddConfig(queryKey)
   );
 };
+/**
+ * 删除项目
+ * @returns mutate--调用其处理请求，并乐观更新
+ */
+export const useDeleteProject = (queryKey: QueryKey) => {
+  const client = useHttp();
+  return useMutation(
+    ({ id }: { id: number }) =>
+      client(`projects/${id}`, {
+        method: "DELETE",
+      }),
+    useDeleteConfig(queryKey)
+  );
+};
+
 /**
  * 获取项目详情
  * @param id
