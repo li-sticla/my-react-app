@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useProject } from "utils/API";
+import { useProject } from "utils/project";
 import { useSetUrlSearchParam, useUrlQueryParam } from "utils/url";
 /**
  * 项目列表搜索参数

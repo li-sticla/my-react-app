@@ -1,5 +1,5 @@
 import React from "react";
-import { useUsers } from "utils/API";
+import { useUsers } from "utils/project";
 import { IdSelect } from "./id-select";
 
 export const UserSelect = (props: React.ComponentProps<typeof IdSelect>) => {

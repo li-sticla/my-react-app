@@ -4,7 +4,7 @@ import { Dropdown, Menu, Modal, Table, TableProps } from "antd";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import { Pin } from "components/pin";
-import { useDeleteProject, useEditProject } from "utils/API";
+import { useDeleteProject, useEditProject } from "utils/project";
 import { ButtonNoPadding } from "components/lib";
 import { useProjectModal, useProjectsQueryKey } from "./util";
 interface ListProp extends TableProps<Project> {
@@ -83,10 +83,10 @@ const More = ({ project }: { project: Project }) => {
   const { mutate: deleteProject } = useDeleteProject(useProjectsQueryKey());
   const confirmDeleteProject = (id: number) => {
     Modal.confirm({
-      title: "🙃确定要删除这个项目🐴？",
-      content: "点击确定以删除",
-      okText: "😅确定",
-      cancelText: "😶算了算了",
+      title: "🙃你确定要删除这个项目🐴？",
+      content: "😡别怪我没提醒你",
+      okText: "😶确定",
+      cancelText: "😅算了算了",
       onOk() {
         deleteProject({ id });
       },
