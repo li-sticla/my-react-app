@@ -43,6 +43,7 @@ export const useProjectModal = () => {
 
   const open = () => setProjectCreate({ projectCreate: true });
   const close = () => setUrlParams({ projectCreate: "", editingProjectId: "" });
+
   const startEdit = (id: number) =>
     setEditingProjectId({ editingProjectId: id });
   return {
