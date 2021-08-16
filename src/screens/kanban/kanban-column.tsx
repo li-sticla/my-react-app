@@ -1,13 +1,15 @@
 import { Kanban } from "types/kanban";
-import { useTasks } from "utils/task";
 import { useTaskTypes } from "utils/task-type";
-import { useTaskModal, useTasksSearchParams } from "./util";
+import { useKanbansQueryKey, useTaskModal, useTasksSearchParams } from "./util";
 import taskIcon from "assets/task.svg";
 import bugIcon from "assets/bug.svg";
 import styled from "@emotion/styled";
-import { Card } from "antd";
+import { Button, Card, Dropdown, Menu, Modal } from "antd";
 import { CreateTask } from "./create-task";
 import { Task } from "types/task";
+import { Mark } from "components/mark";
+import { useDeleteKanban } from "utils/kanban";
+import { Row } from "components/lib";
 
 interface KanbanColumnProps {
   kanban: Kanban;
@@ -23,20 +25,63 @@ const TaskTypeIcon = ({ id }: { id: number }) => {
   return <img src={name === "task" ? taskIcon : bugIcon} alt={"taskType"} />;
 };
 
+const TaskCard = ({ task }: { task: Task }) => {
+  const { startEdit } = useTaskModal();
+  const { name: keyword } = useTasksSearchParams();
+
+  return (
+    <ShadowCard onClick={() => startEdit(task.id)} key={task.id}>
+      <Mark name={task.name} keyword={keyword} />
+      <div style={{ fontFamily: "Tahoma" }}>
+        type: <TaskTypeIcon id={task.typeId} />
+      </div>
+    </ShadowCard>
+  );
+};
+
+const More = ({ kanban }: { kanban: Kanban }) => {
+  const { mutate: deleteKanban } = useDeleteKanban(useKanbansQueryKey());
+  const confirmDeleteKanban = () => {
+    Modal.confirm({
+      title: "🙃你确定要删除这个看板🐴？",
+      content: "😡别怪我没提醒你",
+      okText: "😶确定",
+      cancelText: "😅算了算了",
+      onOk() {
+        deleteKanban({ id: kanban.id });
+      },
+    });
+  };
+  const overlay = (
+    <Menu>
+      <Menu.Item>
+        <Button type={"link"} onClick={confirmDeleteKanban}>
+          删除
+        </Button>
+      </Menu.Item>
+    </Menu>
+  );
+  return (
+    <Dropdown overlay={overlay}>
+      <Button type={"link"}>...</Button>
+    </Dropdown>
+  );
+};
+
 export const KanbanColumn = (props: KanbanColumnProps) => {
   const allTasks = props.allTasks;
   const kanban = props.kanban;
   const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
-  const { startEdit } = useTaskModal();
+
   return (
     <Container>
-      <h2>{kanban.name} 💡</h2>
+      <Row between={true}>
+        <h2>{kanban.name} 💡</h2>
+        <More kanban={kanban} />
+      </Row>
       <TaskContainer>
         {tasks?.map((task) => (
-          <ShadowCard onClick={() => startEdit(task.id)} key={task.id}>
-            <div>{task.name}</div>
-            <TaskTypeIcon id={task.typeId} />
-          </ShadowCard>
+          <TaskCard task={task} />
         ))}
         <CreateTask kanbanId={kanban.id} />
       </TaskContainer>
@@ -52,6 +97,12 @@ export const Container = styled.div`
   flex-direction: column;
   padding: 0.7rem 0.7rem 1rem;
   margin-right: 1.5rem;
+  transition: all 0.5s ease-in-out;
+  &:hover {
+    transform: scale(0.98);
+    box-shadow: inset -4px -4px 10px rgba(255, 255, 255, 0.5),
+      inset 4px 4px 10px rgba(0, 0, 0, 0.1);
+  }
 `;
 
 const TaskContainer = styled.div`
@@ -68,7 +119,8 @@ const ShadowCard = styled(Card)`
   opacity: 0.9;
   &:hover {
     background-color: #dae8f5;
-    box-shadow: 6px 15px 6px -6px rgba(48, 55, 66, 0.15);
     opacity: 0.8;
+    box-shadow: inset -4px -4px 10px rgba(255, 255, 255, 0.5),
+      inset 4px 4px 10px rgba(0, 0, 0, 0.1);
   }
 `;
