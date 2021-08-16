@@ -64,7 +64,7 @@ const User = () => {
       }
     >
       <Button type={"link"} onClick={(e) => e.preventDefault()}>
-        Hi, {user?.name}
+        Hi, {user?.name} 😃
       </Button>
     </Dropdown>
   );

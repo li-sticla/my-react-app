@@ -14,10 +14,14 @@ export const ProjectListScreen = () => {
   useDocumentTitle("项目列表", false);
 
   const [param, setParam] = useProjectsSearchParams();
+  // 只对 name 参数 debounce
+  const debouncedName = useDebounce({ name: param.name }, 2000);
 
-  const debouncedParam = useDebounce(param, 2000);
-
-  const { isLoading, error, data: list } = useProjects(debouncedParam);
+  const {
+    isLoading,
+    error,
+    data: list,
+  } = useProjects({ ...param, ...debouncedName });
 
   const { data: users } = useUsers();
 

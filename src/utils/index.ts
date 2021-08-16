@@ -69,7 +69,7 @@ export const useMount = (callback: () => void) => {
  * @param {number} delay
  * @returns {V} debouncedValue
  */
-export const useDebounce = <V>(value: V, delay: number) => {
+export const useDebounce = <V>(value: V, delay?: number) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(() => {
