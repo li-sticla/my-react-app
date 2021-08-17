@@ -10,10 +10,12 @@ import { Task } from "types/task";
 import { Mark } from "components/mark";
 import { useDeleteKanban } from "utils/kanban";
 import { Row } from "components/lib";
+import React from "react";
+import { Drag, Drop } from "components/drag-and-drop";
 
 interface KanbanColumnProps {
   kanban: Kanban;
-  allTasks?: Task[];
+  allTasks: Task[] | undefined;
 }
 
 const TaskTypeIcon = ({ id }: { id: number }) => {
@@ -68,26 +70,36 @@ const More = ({ kanban }: { kanban: Kanban }) => {
   );
 };
 
-export const KanbanColumn = (props: KanbanColumnProps) => {
-  const allTasks = props.allTasks;
-  const kanban = props.kanban;
-  const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
+export const KanbanColumn = React.forwardRef<HTMLDivElement, KanbanColumnProps>(
+  ({ kanban, allTasks, ...props }, ref) => {
+    const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
 
-  return (
-    <Container>
-      <Row between={true}>
-        <h2>{kanban.name} 💡</h2>
-        <More kanban={kanban} />
-      </Row>
-      <TaskContainer>
-        {tasks?.map((task) => (
-          <TaskCard task={task} />
-        ))}
-        <CreateTask kanbanId={kanban.id} />
-      </TaskContainer>
-    </Container>
-  );
-};
+    return (
+      <Container ref={ref} {...props}>
+        <Row between={true}>
+          <h2>{kanban.name} 💡</h2>
+          <More kanban={kanban} key={kanban.id} />
+        </Row>
+        <Drop
+          type={"ROW"}
+          direction={"vertical"}
+          droppableId={String(kanban.id)}
+        >
+          <TaskContainer>
+            {tasks?.map((task, index) => (
+              <Drag key={task.id} index={index} draggableId={"task" + task.id}>
+                <div ref={ref}>
+                  <TaskCard task={task} key={task.id} />
+                </div>
+              </Drag>
+            ))}
+            <CreateTask kanbanId={kanban.id} />
+          </TaskContainer>
+        </Drop>
+      </Container>
+    );
+  }
+);
 
 export const Container = styled.div`
   min-width: 27rem;
@@ -99,6 +111,7 @@ export const Container = styled.div`
   margin-right: 1.5rem;
   transition: all 0.5s ease-in-out;
   &:hover {
+    background-color: #caf2f5;
     transform: scale(0.98);
     box-shadow: inset -4px -4px 10px rgba(255, 255, 255, 0.5),
       inset 4px 4px 10px rgba(0, 0, 0, 0.1);
@@ -106,6 +119,7 @@ export const Container = styled.div`
 `;
 
 const TaskContainer = styled.div`
+  min-height: 5px;
   overflow: scroll;
   flex: 1;
   ::-webkit-scrollbar {
@@ -114,13 +128,13 @@ const TaskContainer = styled.div`
 `;
 const ShadowCard = styled(Card)`
   cursor: pointer;
-  transition: all 0.7s ease-in-out;
+  border-radius: 10px;
   margin-bottom: 0.5em;
-  opacity: 0.9;
+  transition: all 0.8s linear;
   &:hover {
-    background-color: #dae8f5;
-    opacity: 0.8;
-    box-shadow: inset -4px -4px 10px rgba(255, 255, 255, 0.5),
-      inset 4px 4px 10px rgba(0, 0, 0, 0.1);
+    color: #2acfdb;
+    transform: scale(0.97);
+    box-shadow: inset -4px -4px 10px rgba(164, 237, 240, 0.5),
+      inset 4px 4px 10px rgba(4, 196, 221, 0.1);
   }
 `;
