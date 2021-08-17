@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { Popover, Typography, List, Divider } from "antd";
+import { Link } from "react-router-dom";
 import { useProjectModal } from "screens/projectList/util";
 import { useProjects } from "utils/project";
 import { ButtonNoPadding } from "./lib";
@@ -15,6 +16,7 @@ export const ProjectPopover = () => {
         {pinnedProjects?.map((project) => (
           <List.Item key={project.id}>
             <List.Item.Meta title={project.name} />
+            <Link to={"projects/" + project.id}>👉前往</Link>
           </List.Item>
         ))}
       </List>
@@ -27,7 +29,7 @@ export const ProjectPopover = () => {
 
   return (
     <Popover placement={"bottom"} content={content}>
-      <span>项目</span>
+      <span style={{ cursor: "pointer" }}>项目</span>
     </Popover>
   );
 };

@@ -31,7 +31,12 @@ export const ProjectListScreen = () => {
     <ScreenContainer>
       <Row between={true}>
         <h1>项目列表</h1>
-        <ButtonNoPadding onClick={open} type={"link"}>
+        <ButtonNoPadding
+          type={"primary"}
+          style={{ opacity: "0.8" }}
+          size={"large"}
+          onClick={open}
+        >
           创建项目
         </ButtonNoPadding>
       </Row>

@@ -10,22 +10,25 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { ProjectScreen } from "screens/project";
 import { ProjectModal } from "screens/projectList/project-modal";
 import { ProjectPopover } from "components/project-popover";
+import cloud from "assets/cloud.svg";
 
 export const AuthenticatedApp = () => {
   return (
     <Container>
       <Router>
         <PageHeader />
-        <Main>
-          <Routes>
-            <Route path={"/projects"} element={<ProjectListScreen />} />
-            <Route
-              path={"/projects/:projectId/*"}
-              element={<ProjectScreen />}
-            />
-            <Navigate to={"/projects"} />
-          </Routes>
-        </Main>
+        <Background>
+          <Main>
+            <Routes>
+              <Route path={"/projects"} element={<ProjectListScreen />} />
+              <Route
+                path={"/projects/:projectId/*"}
+                element={<ProjectScreen />}
+              />
+              <Navigate to={"/projects"} />
+            </Routes>
+          </Main>
+        </Background>
         <ProjectModal />
       </Router>
     </Container>
@@ -70,6 +73,16 @@ const User = () => {
   );
 };
 
+const Background = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  background-image: url(${cloud});
+`;
+
 const Container = styled.div`
   display: grid;
   grid-template-rows: 6rem 1fr;
@@ -77,7 +90,7 @@ const Container = styled.div`
 `;
 
 const Header = styled(Row)`
-  padding: 3.2rem;
+  padding: 2.2rem;
   box-shadow: 0 0 5px 0 rgba(7, 7, 7, 0.2);
   z-index: 1;
 `;
@@ -87,6 +100,8 @@ const HeaderLeft = styled(Row)``;
 const HeaderRight = styled.div``;
 
 const Main = styled.main`
+  width: 100%;
   display: flex;
   overflow: hidden;
+  opacity: 0.9;
 `;

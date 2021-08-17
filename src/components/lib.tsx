@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { Button, Spin, Typography } from "antd";
 import { DevTools } from "jira-dev-tool";
 import { isError } from "utils";
+import space from "assets/space.svg";
 
 /* tsx组件块
  ============================================================================ */
@@ -53,6 +54,7 @@ const FullPage = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  background-image: url(${space});
 `;
 
 export const ButtonNoPadding = styled(Button)`

@@ -17,7 +17,7 @@ export const CreateKanban = () => {
     <Container>
       <Input
         size={"large"}
-        placeholder={"新建看板名称"}
+        placeholder={"新建看板👨‍💻"}
         onPressEnter={submit}
         value={name}
         onChange={(evt) => setName(evt.target.value)}
