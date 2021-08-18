@@ -1,10 +1,8 @@
 import styled from "@emotion/styled";
 import { Popover, Typography, List, Divider, Button, Modal } from "antd";
-import { Dispatch, SetStateAction, useState } from "react";
 import { User } from "types/user";
 import { useSetUrlSearchParam, useUrlQueryParam } from "utils/url";
 import { useDeleteUser, useUsers, useUsersQueryKey } from "utils/user";
-import { CreateUser } from "./create-user";
 import { ButtonNoPadding } from "./lib";
 
 export const useUserModal = () => {

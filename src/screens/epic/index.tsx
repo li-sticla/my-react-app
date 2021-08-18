@@ -75,6 +75,7 @@ export const EpicScreen = () => {
                 }
               />
               <div>
+                任务：
                 {tasks
                   ?.filter((task) => task.epicId === epic.id)
                   .map((task) => (
@@ -83,7 +84,7 @@ export const EpicScreen = () => {
                       to={`/projects/${currentProject?.id}/kanban?editingTaskId=${task.id}`}
                       key={task.id}
                     >
-                      {task.name}
+                      {`📝 ${task.name}`}
                     </Link>
                   ))}
               </div>

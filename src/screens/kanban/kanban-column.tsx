@@ -4,7 +4,7 @@ import { useKanbansQueryKey, useTaskModal, useTasksSearchParams } from "./util";
 import taskIcon from "assets/task.svg";
 import bugIcon from "assets/bug.svg";
 import styled from "@emotion/styled";
-import { Button, Card, Dropdown, Menu, Modal } from "antd";
+import { Button, Card, Dropdown, Menu, Modal, Tooltip } from "antd";
 import { CreateTask } from "./create-task";
 import { Task } from "types/task";
 import { Mark } from "components/mark";
@@ -37,20 +37,29 @@ const TaskCard = ({ task }: { task: Task }) => {
   const { data: epics } = useEpics(useEpicsSearchParams());
 
   return (
-    <ShadowCard onClick={() => startEdit(task.id)} key={task.id}>
-      <Mark name={task.name} keyword={keyword} />
-      <div style={{ fontFamily: "Tahoma" }}>
-        type: <TaskTypeIcon id={task.typeId} />
-        <div>
-          经办人：
-          {users?.find((user) => task?.processorId === user.id)?.name || "未知"}
+    <Tooltip
+      placement="topLeft"
+      title="点击修改，拖动进行布局"
+      color={"cyan"}
+      arrowPointAtCenter
+    >
+      <ShadowCard onClick={() => startEdit(task.id)} key={task.id}>
+        <Mark name={`任务：📝${task.name}`} keyword={keyword} />
+        <div style={{ fontFamily: "Tahoma" }}>
+          type：
+          <TaskTypeIcon id={task.typeId} />
+          <div>
+            经办人：🤵
+            {users?.find((user) => task?.processorId === user.id)?.name ||
+              "未知"}
+          </div>
+          <div>
+            任务组：🗃️
+            {epics?.find((epic) => task.epicId === epic.id)?.name || "未知"}
+          </div>
         </div>
-        <div>
-          任务组：
-          {epics?.find((epic) => task.epicId === epic.id)?.name || "未知"}
-        </div>
-      </div>
-    </ShadowCard>
+      </ShadowCard>
+    </Tooltip>
   );
 };
 

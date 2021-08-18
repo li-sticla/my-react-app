@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Button, Drawer, DrawerProps, Form, Input, Spin } from "antd";
+import { Button, Drawer, Form, Input, Spin } from "antd";
 import { ErrorBox } from "components/lib";
 import { useEffect } from "react";
 import access from "assets/access.svg";
@@ -18,7 +18,7 @@ export const CreateUser = () => {
 
   useEffect(() => {
     form.resetFields();
-  }, [form, useUserModal]);
+  }, [form]);
 
   return (
     <Drawer
