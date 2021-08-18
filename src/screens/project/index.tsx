@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { Menu } from "antd";
+import React from "react";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { EpicScreen } from "screens/epic";
 import { KanbanScreen } from "screens/kanban";
@@ -9,7 +10,7 @@ const useRputeType = () => {
   return units[units.length - 1];
 };
 
-export const ProjectScreen = () => {
+const ProjectScreen = React.memo(() => {
   const routeType = useRputeType();
   return (
     <Container>
@@ -32,7 +33,7 @@ export const ProjectScreen = () => {
       </Main>
     </Container>
   );
-};
+});
 
 const Aside = styled.aside`
   border-color: rgb(244, 245, 247);
@@ -49,3 +50,5 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: 16rem 1fr;
 `;
+
+export default ProjectScreen;

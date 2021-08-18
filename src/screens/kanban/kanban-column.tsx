@@ -43,22 +43,24 @@ const TaskCard = ({ task }: { task: Task }) => {
       color={"cyan"}
       arrowPointAtCenter
     >
-      <ShadowCard onClick={() => startEdit(task.id)} key={task.id}>
-        <Mark name={`任务：📝${task.name}`} keyword={keyword} />
-        <div style={{ fontFamily: "Tahoma" }}>
-          type：
-          <TaskTypeIcon id={task.typeId} />
-          <div>
-            经办人：🤵
-            {users?.find((user) => task?.processorId === user.id)?.name ||
-              "未知"}
+      <div>
+        <ShadowCard onClick={() => startEdit(task.id)} key={task.id}>
+          <Mark name={`任务：📝${task.name}`} keyword={keyword} />
+          <div style={{ fontFamily: "Tahoma" }}>
+            type：
+            <TaskTypeIcon id={task.typeId} />
+            <div>
+              经办人：🤵
+              {users?.find((user) => task?.processorId === user.id)?.name ||
+                "未知"}
+            </div>
+            <div>
+              任务组：🗃️
+              {epics?.find((epic) => task.epicId === epic.id)?.name || "未知"}
+            </div>
           </div>
-          <div>
-            任务组：🗃️
-            {epics?.find((epic) => task.epicId === epic.id)?.name || "未知"}
-          </div>
-        </div>
-      </ShadowCard>
+        </ShadowCard>
+      </div>
     </Tooltip>
   );
 };

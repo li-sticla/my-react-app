@@ -1,21 +1,21 @@
 import styled from "@emotion/styled";
 import { ButtonNoPadding, Row } from "components/lib";
 import { useAuth } from "context/auth-context";
-import { ProjectListScreen } from "screens/projectList";
 import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
+import React from "react";
 import { Avatar, Button, Dropdown, Menu } from "antd";
 import { resetRoute } from "utils";
 import { Navigate, Route, Routes } from "react-router";
 import { BrowserRouter as Router } from "react-router-dom";
-import { ProjectScreen } from "screens/project";
 import { ProjectModal } from "screens/projectList/project-modal";
 import { ProjectPopover } from "components/project-popover";
 import cloud from "assets/cloud.svg";
 import dayjs from "dayjs";
 import { keyframes } from "@emotion/react";
 import { UserPopover } from "components/user-popover";
-import { useState } from "react";
 import { CreateUser } from "components/create-user";
+const ProjectScreen = React.lazy(() => import("screens/project"));
+const ProjectListScreen = React.lazy(() => import("screens/projectList"));
 
 const getTime = () => {
   const hour = dayjs().get("hour");
@@ -28,21 +28,23 @@ const getTime = () => {
     : { text: "🌙晚上好", mainColor: "#6666CC", subColor: "#FF9999" };
 };
 
-export const AuthenticatedApp = () => {
+const AuthenticatedApp = () => {
   return (
     <Container>
       <Router>
         <PageHeader />
         <Background>
           <Main>
-            <Routes>
-              <Route path={"/projects"} element={<ProjectListScreen />} />
-              <Route
-                path={"/projects/:projectId/*"}
-                element={<ProjectScreen />}
-              />
-              <Navigate to={"/projects"} />
-            </Routes>
+            <React.Suspense fallback={<div>Loading...</div>}>
+              <Routes>
+                <Route path={"/projects"} element={<ProjectListScreen />} />
+                <Route
+                  path={"/projects/:projectId/*"}
+                  element={<ProjectScreen />}
+                />
+                <Navigate to={"/projects"} />
+              </Routes>
+            </React.Suspense>
           </Main>
         </Background>
         <ProjectModal />
@@ -159,3 +161,5 @@ const SpinAvatar = styled(Avatar)`
     animation: ${rotate} 1s linear;
   }
 `;
+
+export default AuthenticatedApp;

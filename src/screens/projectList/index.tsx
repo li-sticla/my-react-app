@@ -10,8 +10,9 @@ import {
   Row,
   ScreenContainer,
 } from "components/lib";
+import React from "react";
 
-export const ProjectListScreen = () => {
+const ProjectListScreen = React.memo(() => {
   useDocumentTitle("项目列表", false);
 
   const [param, setParam] = useProjectsSearchParams();
@@ -51,4 +52,6 @@ export const ProjectListScreen = () => {
       ></List>
     </ScreenContainer>
   );
-};
+});
+
+export default ProjectListScreen;
