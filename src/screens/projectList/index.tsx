@@ -1,7 +1,8 @@
 import { useDebounce, useDocumentTitle } from "utils/index";
 import { List } from "./list";
 import { SearchPanel } from "./search-panel";
-import { useProjects, useUsers } from "utils/project";
+import { useProjects } from "utils/project";
+import { useUsers } from "utils/user";
 import { useProjectModal, useProjectsSearchParams } from "./util";
 import {
   ButtonNoPadding,
@@ -33,7 +34,7 @@ export const ProjectListScreen = () => {
         <h1>项目列表</h1>
         <ButtonNoPadding
           type={"primary"}
-          style={{ opacity: "0.8" }}
+          style={{ opacity: "0.8", borderRadius: "15px" }}
           size={"large"}
           onClick={open}
         >

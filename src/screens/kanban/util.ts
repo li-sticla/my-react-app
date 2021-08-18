@@ -19,14 +19,14 @@ export const useKanbansSearchParams = () => ({
 export const useKanbansQueryKey = () => ["kanbans", useKanbansSearchParams()];
 
 export const useTasksSearchParams = () => {
-  const [param] = useUrlQueryParam(["name", "typeId", "processorId", "tagId"]);
+  const [param] = useUrlQueryParam(["name", "typeId", "processorId", "epicId"]);
   const projectId = useProjectIdInUrl();
   return useMemo(
     () => ({
       projectId,
       typeId: Number(param.typeId) || undefined,
       processorId: Number(param.processorId) || undefined,
-      tagId: Number(param.tagId) || undefined,
+      epicId: Number(param.epicId) || undefined,
       name: param.name,
     }),
     [projectId, param]

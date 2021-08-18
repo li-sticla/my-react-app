@@ -6,6 +6,7 @@ import { UserSelect } from "components/user-select";
 import { useEffect } from "react";
 import { useAddProject, useEditProject } from "utils/project";
 import { useProjectModal, useProjectsQueryKey } from "./util";
+import access from "assets/access.svg";
 
 export const ProjectModal = () => {
   const { projectModalOpen, close, editingProject, isLoading } =
@@ -42,59 +43,61 @@ export const ProjectModal = () => {
       visible={projectModalOpen}
       width={"100%"}
     >
-      <Container>
-        {isLoading ? (
-          <Spin size={"large"} />
-        ) : (
-          <>
-            <h1>{title}</h1>
-            <ErrorBox error={error} />
-            <Form
-              form={form}
-              layout={"vertical"}
-              style={{ width: "40rem" }}
-              onFinish={onFinish}
-            >
-              <Form.Item
-                label={"名称"}
-                name={"name"}
-                rules={[
-                  {
-                    required: true,
-                    message: "请输入项目名称",
-                  },
-                ]}
+      <Background>
+        <Container>
+          {isLoading ? (
+            <Spin size={"large"} />
+          ) : (
+            <>
+              <h1>{title}</h1>
+              <ErrorBox error={error} />
+              <Form
+                form={form}
+                layout={"vertical"}
+                style={{ width: "40rem" }}
+                onFinish={onFinish}
               >
-                <Input placeholder={"请输入项目名称"} />
-              </Form.Item>
-              <Form.Item
-                label={"部门"}
-                name={"organization"}
-                rules={[
-                  {
-                    required: true,
-                    message: "请输入部门名称",
-                  },
-                ]}
-              >
-                <Input placeholder={"请输入部门名称"} />
-              </Form.Item>
-              <Form.Item label={"负责人"} name={"personId"}>
-                <UserSelect defaultOptionName={"负责人"} />
-              </Form.Item>
-              <Form.Item style={{ textAlign: "center" }}>
-                <Button
-                  loading={mutateLoading}
-                  type={"primary"}
-                  htmlType={"submit"}
+                <Form.Item
+                  label={"名称"}
+                  name={"name"}
+                  rules={[
+                    {
+                      required: true,
+                      message: "请输入项目名称",
+                    },
+                  ]}
                 >
-                  提交
-                </Button>
-              </Form.Item>
-            </Form>
-          </>
-        )}
-      </Container>
+                  <Input placeholder={"请输入项目名称"} />
+                </Form.Item>
+                <Form.Item
+                  label={"部门"}
+                  name={"organization"}
+                  rules={[
+                    {
+                      required: true,
+                      message: "请输入部门名称",
+                    },
+                  ]}
+                >
+                  <Input placeholder={"请输入部门名称"} />
+                </Form.Item>
+                <Form.Item label={"负责人"} name={"personId"}>
+                  <UserSelect defaultOptionName={"负责人"} />
+                </Form.Item>
+                <Form.Item style={{ textAlign: "center" }}>
+                  <Button
+                    loading={mutateLoading}
+                    type={"primary"}
+                    htmlType={"submit"}
+                  >
+                    提交
+                  </Button>
+                </Form.Item>
+              </Form>
+            </>
+          )}
+        </Container>
+      </Background>
     </Drawer>
   );
 };
@@ -105,4 +108,14 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+`;
+const Background = styled.div`
+  width: 100%;
+  height: 100%;
+  background-attachment: fixed;
+  background-position: left 32% bottom 60%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.8;
+  background-image: url(${access});
 `;

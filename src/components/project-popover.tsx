@@ -16,7 +16,7 @@ export const ProjectPopover = () => {
         {pinnedProjects?.map((project) => (
           <List.Item key={project.id}>
             <List.Item.Meta title={project.name} />
-            <Link to={"projects/" + project.id}>👉前往</Link>
+            <Link to={"projects/" + project.id}>👉查看</Link>
           </List.Item>
         ))}
       </List>

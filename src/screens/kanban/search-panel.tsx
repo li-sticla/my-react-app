@@ -1,4 +1,5 @@
 import { Button, Input } from "antd";
+import { EpicSelect } from "components/epic-select";
 import { Row } from "components/lib";
 import { TaskTypeSelect } from "components/task-type-select";
 import { UserSelect } from "components/user-select";
@@ -12,7 +13,7 @@ export const SearchPanel = () => {
     setSearchParams({
       typeId: undefined,
       processorId: undefined,
-      tagId: undefined,
+      epicId: undefined,
       name: undefined,
     });
   };
@@ -35,6 +36,11 @@ export const SearchPanel = () => {
         defaultOptionName={"类型"}
         value={searchParams.typeId}
         onChange={(value) => setSearchParams({ typeId: value })}
+      />
+      <EpicSelect
+        defaultOptionName={"任务组"}
+        value={searchParams.epicId}
+        onChange={(value) => setSearchParams({ epicId: value })}
       />
       <Button onClick={reset}>清除筛选器</Button>
     </Row>

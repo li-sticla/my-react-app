@@ -3,7 +3,7 @@ import { ButtonNoPadding, Row } from "components/lib";
 import { useAuth } from "context/auth-context";
 import { ProjectListScreen } from "screens/projectList";
 import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
-import { Button, Dropdown, Menu } from "antd";
+import { Avatar, Button, Dropdown, Menu } from "antd";
 import { resetRoute } from "utils";
 import { Navigate, Route, Routes } from "react-router";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -11,6 +11,22 @@ import { ProjectScreen } from "screens/project";
 import { ProjectModal } from "screens/projectList/project-modal";
 import { ProjectPopover } from "components/project-popover";
 import cloud from "assets/cloud.svg";
+import dayjs from "dayjs";
+import { keyframes } from "@emotion/react";
+import { UserPopover } from "components/user-popover";
+import { useState } from "react";
+import { CreateUser } from "components/create-user";
+
+const getTime = () => {
+  const hour = dayjs().get("hour");
+  return hour > 0 && hour <= 10
+    ? { text: "🌅早上好", mainColor: "#FFCC99", subColor: "#FFFFFF" }
+    : hour > 10 && hour < 14
+    ? { text: "🌞中午好", mainColor: "#FF6600", subColor: "#FFFFCC" }
+    : hour > 14 && hour <= 18
+    ? { text: "⛅下午好", mainColor: "#66CCCC", subColor: "#CCFF99" }
+    : { text: "🌙晚上好", mainColor: "#6666CC", subColor: "#FF9999" };
+};
 
 export const AuthenticatedApp = () => {
   return (
@@ -43,7 +59,8 @@ const PageHeader = () => {
           <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
         </ButtonNoPadding>
         <ProjectPopover />
-        <span>用户</span>
+        <UserPopover />
+        <CreateUser />
       </HeaderLeft>
       <HeaderRight>
         <User />
@@ -54,22 +71,42 @@ const PageHeader = () => {
 
 const User = () => {
   const { logout, user } = useAuth();
+  const now = getTime();
   return (
-    <Dropdown
-      overlay={
-        <Menu>
-          <Menu.Item key={"logout"}>
-            <Button type={"link"} onClick={logout}>
-              登出
-            </Button>
-          </Menu.Item>
-        </Menu>
-      }
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
     >
-      <Button type={"link"} onClick={(e) => e.preventDefault()}>
-        Hi, {user?.name} 😃
-      </Button>
-    </Dropdown>
+      <span style={{ color: `${now.mainColor}` }}>{now.text}~</span>
+      <Dropdown
+        overlay={
+          <Menu>
+            <Menu.Item key={"logout"}>
+              <Button type={"link"} onClick={logout}>
+                登出
+              </Button>
+            </Menu.Item>
+          </Menu>
+        }
+      >
+        <div>
+          <Button type={"link"} onClick={(e) => e.preventDefault()}>
+            <SpinAvatar
+              style={{
+                backgroundColor: `${now.mainColor}`,
+                color: `${now.subColor}`,
+              }}
+              size={"large"}
+            >
+              {user?.name}
+            </SpinAvatar>
+          </Button>
+        </div>
+      </Dropdown>
+    </div>
   );
 };
 
@@ -103,5 +140,22 @@ const Main = styled.main`
   width: 100%;
   display: flex;
   overflow: hidden;
-  opacity: 0.9;
+  opacity: 0.85;
+`;
+
+const rotate = keyframes`
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+`;
+
+const SpinAvatar = styled(Avatar)`
+  background-color: #3ba5ec;
+  color: #eaeeec;
+  &:hover {
+    animation: ${rotate} 1s linear;
+  }
 `;

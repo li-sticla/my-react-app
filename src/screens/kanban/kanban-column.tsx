@@ -12,6 +12,9 @@ import { useDeleteKanban } from "utils/kanban";
 import { Row } from "components/lib";
 import React from "react";
 import { Drag, Drop } from "components/drag-and-drop";
+import { useUsers } from "utils/user";
+import { useEpics } from "utils/epic";
+import { useEpicsSearchParams } from "screens/epic/util";
 
 interface KanbanColumnProps {
   kanban: Kanban;
@@ -30,12 +33,22 @@ const TaskTypeIcon = ({ id }: { id: number }) => {
 const TaskCard = ({ task }: { task: Task }) => {
   const { startEdit } = useTaskModal();
   const { name: keyword } = useTasksSearchParams();
+  const { data: users } = useUsers();
+  const { data: epics } = useEpics(useEpicsSearchParams());
 
   return (
     <ShadowCard onClick={() => startEdit(task.id)} key={task.id}>
       <Mark name={task.name} keyword={keyword} />
       <div style={{ fontFamily: "Tahoma" }}>
         type: <TaskTypeIcon id={task.typeId} />
+        <div>
+          经办人：
+          {users?.find((user) => task?.processorId === user.id)?.name || "未知"}
+        </div>
+        <div>
+          任务组：
+          {epics?.find((epic) => task.epicId === epic.id)?.name || "未知"}
+        </div>
       </div>
     </ShadowCard>
   );

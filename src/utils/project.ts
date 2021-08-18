@@ -1,10 +1,7 @@
-import { useEffect } from "react";
 import { QueryKey, useMutation, useQuery } from "react-query";
 import { Project } from "types/project";
-import { User } from "types/user";
 import { cleanObject } from "utils";
 import { useHttp } from "./http";
-import { useAsync } from "./use-async";
 import {
   useAddConfig,
   useDeleteConfig,
@@ -19,14 +16,6 @@ export const useProjects = (param?: Partial<Project>) => {
   );
 };
 
-export const useUsers = (param?: Partial<User>) => {
-  const { run, ...result } = useAsync<User[]>();
-  const client = useHttp();
-  useEffect(() => {
-    run(client("users", { data: cleanObject(param || {}) }));
-  }, [param, run, client]);
-  return result;
-};
 /**
  * 编辑项目
  * @returns mutate--调用其处理请求，并乐观更新
