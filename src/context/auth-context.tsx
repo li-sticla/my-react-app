@@ -11,6 +11,7 @@ interface AuthForm {
   username: string;
   password: string;
 }
+
 /**
  * 获取 user 信息
  * @returns user

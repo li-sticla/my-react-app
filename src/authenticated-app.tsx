@@ -6,7 +6,6 @@ import React from "react";
 import { Avatar, Button, Dropdown, Menu } from "antd";
 import { resetRoute } from "utils";
 import { Navigate, Route, Routes } from "react-router";
-import { BrowserRouter as Router } from "react-router-dom";
 import { ProjectModal } from "screens/projectList/project-modal";
 import { ProjectPopover } from "components/project-popover";
 import cloud from "assets/cloud.svg";
@@ -31,24 +30,22 @@ const getTime = () => {
 const AuthenticatedApp = () => {
   return (
     <Container>
-      <Router>
-        <PageHeader />
-        <Background>
-          <Main>
-            <React.Suspense fallback={<div>Loading...</div>}>
-              <Routes>
-                <Route path={"/projects"} element={<ProjectListScreen />} />
-                <Route
-                  path={"/projects/:projectId/*"}
-                  element={<ProjectScreen />}
-                />
-                <Navigate to={"/projects"} />
-              </Routes>
-            </React.Suspense>
-          </Main>
-        </Background>
-        <ProjectModal />
-      </Router>
+      <PageHeader />
+      <Background>
+        <Main>
+          <React.Suspense fallback={<div>Loading...</div>}>
+            <Routes>
+              <Route path={"/projects"} element={<ProjectListScreen />} />
+              <Route
+                path={"/projects/:projectId/*"}
+                element={<ProjectScreen />}
+              />
+              <Navigate to={"/projects"} />
+            </Routes>
+          </React.Suspense>
+        </Main>
+      </Background>
+      <ProjectModal />
     </Container>
   );
 };

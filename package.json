@@ -65,6 +65,7 @@
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
+    "@testing-library/react-hooks": "^7.0.1",
     "@types/react": "^17.0.14",
     "@welldone-software/why-did-you-render": "^6.2.0",
     "commitizen": "^4.2.4",
@@ -72,6 +73,7 @@
     "husky": "^7.0.1",
     "json-server": "^0.16.3",
     "lint-staged": "^11.1.0",
+    "msw": "^0.34.0",
     "prettier": "2.3.2"
   },
   "lint-staged": {
