@@ -20,9 +20,9 @@ const getTime = () => {
   const hour = dayjs().get("hour");
   return hour > 0 && hour <= 10
     ? { text: "🌅早上好", mainColor: "#FFCC99", subColor: "#FFFFFF" }
-    : hour > 10 && hour < 14
+    : hour > 10 && hour <= 13
     ? { text: "🌞中午好", mainColor: "#FF6600", subColor: "#FFFFCC" }
-    : hour > 14 && hour <= 18
+    : hour > 13 && hour <= 17
     ? { text: "⛅下午好", mainColor: "#66CCCC", subColor: "#CCFF99" }
     : { text: "🌙晚上好", mainColor: "#6666CC", subColor: "#FF9999" };
 };
