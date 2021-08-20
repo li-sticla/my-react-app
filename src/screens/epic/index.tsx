@@ -32,7 +32,7 @@ export const EpicScreen = () => {
   };
   return (
     <ScreenContainer>
-      <Row between={true} gap={true}>
+      <Row gap={5} marginBottom={3}>
         <h1>{currentProject?.name}任务组</h1>
         <Button
           style={{ borderRadius: "10px", opacity: "0.9" }}
@@ -43,11 +43,12 @@ export const EpicScreen = () => {
         </Button>
       </Row>
       <List
+        grid={{ gutter: 50, column: 4 }}
         dataSource={epics}
         itemLayout={"vertical"}
         renderItem={(epic) => (
           <List.Item>
-            <ShadowCard style={{ minWidth: "300px" }}>
+            <ShadowCard style={{ minWidth: "250px" }}>
               <List.Item.Meta
                 title={
                   <Row between={true}>
@@ -73,6 +74,7 @@ export const EpicScreen = () => {
                     <div>结束时间：{dayjs(epic.end).format("YYYY-MM-DD")}</div>
                   </div>
                 }
+                avatar={"🗃️"}
               />
               <div>
                 任务：

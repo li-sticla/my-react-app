@@ -38,6 +38,7 @@ const TaskCard = ({ task }: { task: Task }) => {
 
   return (
     <Tooltip
+      mouseEnterDelay={0.8}
       placement="topLeft"
       title="点击修改，拖动进行布局"
       color={"cyan"}
@@ -133,7 +134,7 @@ export const Container = styled.div`
   flex-direction: column;
   padding: 0.7rem 0.7rem 1rem;
   margin-right: 1.5rem;
-  transition: all 0.5s ease-in-out;
+  transition: all 0.4s ease-in-out;
   &:hover {
     background-color: #caf2f5;
     transform: scale(0.98);
@@ -154,7 +155,7 @@ const ShadowCard = styled(Card)`
   cursor: pointer;
   border-radius: 10px;
   margin-bottom: 0.5em;
-  transition: all 0.8s linear;
+  transition: all 0.5s linear;
   &:hover {
     color: #2acfdb;
     transform: scale(0.97);

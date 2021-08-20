@@ -27,6 +27,7 @@ const getTime = () => {
     ? { text: "⛅下午好", mainColor: "#66CCCC", subColor: "#CCFF99" }
     : { text: "🌙晚上好", mainColor: "#6666CC", subColor: "#FF9999" };
 };
+const now = getTime();
 
 const AuthenticatedApp = () => {
   return (
@@ -35,16 +36,14 @@ const AuthenticatedApp = () => {
         <PageHeader />
         <Background>
           <Main>
-            <React.Suspense fallback={<div>Loading...</div>}>
-              <Routes>
-                <Route path={"/projects"} element={<ProjectListScreen />} />
-                <Route
-                  path={"/projects/:projectId/*"}
-                  element={<ProjectScreen />}
-                />
-                <Navigate to={"/projects"} />
-              </Routes>
-            </React.Suspense>
+            <Routes>
+              <Route path={"/projects"} element={<ProjectListScreen />} />
+              <Route
+                path={"/projects/:projectId/*"}
+                element={<ProjectScreen />}
+              />
+              <Navigate to={"/projects"} />
+            </Routes>
           </Main>
         </Background>
         <ProjectModal />
@@ -73,7 +72,7 @@ const PageHeader = () => {
 
 const User = () => {
   const { logout, user } = useAuth();
-  const now = getTime();
+
   return (
     <div
       style={{
@@ -114,7 +113,7 @@ const User = () => {
 
 const Background = styled.div`
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 6rem);
   display: flex;
   background-attachment: fixed;
   background-position: center;

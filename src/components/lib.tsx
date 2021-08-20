@@ -50,6 +50,7 @@ export const Row = styled.div<{
 `;
 
 const FullPage = styled.div`
+  width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -66,4 +67,8 @@ export const ScreenContainer = styled.div`
   width: 100vw;
   display: flex;
   flex-direction: column;
+  overflow: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;

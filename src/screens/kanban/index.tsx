@@ -136,5 +136,6 @@ export const KanbanScreen = () => {
 export const ColumnsContainer = styled.div`
   display: flex;
   overflow-x: scroll;
+  overflow-y: hidden;
   flex: 1;
 `;
