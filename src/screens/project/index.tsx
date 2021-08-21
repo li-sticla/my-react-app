@@ -5,13 +5,13 @@ import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { EpicScreen } from "screens/epic";
 import { KanbanScreen } from "screens/kanban";
 
-const useRputeType = () => {
+const useRouteType = () => {
   const units = useLocation().pathname.split("/");
   return units[units.length - 1];
 };
 
 const ProjectScreen = React.memo(() => {
-  const routeType = useRputeType();
+  const routeType = useRouteType();
   return (
     <Container>
       <Aside>
